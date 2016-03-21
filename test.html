@@ -48,7 +48,7 @@
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
       var map, heatmap;
-      var dataset = []; 
+      var dataset = [];
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -103,7 +103,7 @@
 
               console.log(current.fields.available_bikes);
               dataset.push({
-               
+
                location: new google.maps.LatLng(current.geometry.coordinates[1],  current.geometry.coordinates[0]),
                 weight: current.fields.available_bikes
               })
@@ -121,7 +121,7 @@
 
       </script>
             <script async defer
-                 src="https://maps.googleapis.com/maps/api/js?key=<INSERT COIN (OR API KEY)>&libraries=visualization&callback=initMap">
+                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc8LT1DuxAqghhxJ3y17ER2ICbl8ZHuo8&libraries=visualization&callback=initMap">
     </script>
   </body>
 </html>
