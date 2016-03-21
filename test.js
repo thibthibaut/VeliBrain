@@ -22,22 +22,21 @@ function getPoints() {
         if (current.fields.status == "CLOSED") {
           dataset.push({
             open: false,
-            location: {
-              Lat: current.geometry.coordinates[1],
-              Lng: current.geometry.coordinates[0]
-            },
-            weight: 0
+            Lat: current.geometry.coordinates[1],
+            Lng: current.geometry.coordinates[0],
+            stands: 0,
+            bikes: 0
           });
           continue;
         }
 
         dataset.push({
           open: true,
-          location: {
-            Lat: current.geometry.coordinates[1],
-            Lng: current.geometry.coordinates[0]
-          },
-          weight: current.fields.available_bikes
+          Lat: current.geometry.coordinates[1],
+          Lng: current.geometry.coordinates[0],
+          stands: current.available_bikes_stands,
+          bikes: current.fields.available_bikes
+
         });
       }
       console.log('We have all the data we need for this time : ' + dataset.length);
