@@ -23,7 +23,10 @@ function getPoints() {
     log.debug("C'est parti mon kiki " + response.statusCode + "\n");
     var name;
     if (!error && response.statusCode == 200) {
-      var date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss Z');
+      var date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss Z');//WHY NOT A UNIX TIME STAMP ?
+      //var date = new Date().getTime(); 
+      //Number of miliseconds since January, first, 1970. On a 32/64 bits integer 
+      //(Could be parsed to 32 bits int for database storage) => see ToInt32 method
 
       body = JSON.parse(body);
       var rows = body.records;
@@ -31,10 +34,10 @@ function getPoints() {
       for (var i = 0; i < rows.length; i++) {
         var current = rows[i];
 
-        id = current.fields.name.split(" ", 1);
-
+        id = current.fields.name.split(" ", 1)[0];
+      
         stations.push({
-          id: id[0],
+          id: id,
           lat: current.geometry.coordinates[1],
           lng: current.geometry.coordinates[0]
         });
@@ -43,7 +46,7 @@ function getPoints() {
 
           filling.push({
             open: false,
-            station_id: id[0],
+            station_id: id,
             stands: 0,
             bikes: 0,
             date
@@ -53,7 +56,7 @@ function getPoints() {
 
         filling.push({
           open: true,
-          station_id: id[0],
+          station_id: id,
           stands: current.fields.available_bikes_stands,
           bikes: current.fields.available_bikes,
           date
@@ -90,7 +93,7 @@ function saveDB(array_stations, array_filling) {
 
       if (result.rows.length == 0) {
         for (i = 0; i < array_stations; i++) {
-          sql = 'insert into station (lat, lng, id) values (' + array_stations[i].lat + ',' + array_stations[i].lng + ',' + array_stations[i].id + ');';
+          sql = `insert into station (lat, lng, id) values (${array_stations[i].lat},${array_stations[i].lng},${array_stations[i].id});`;
           console.log(sql);
           client.query();
         }
@@ -99,7 +102,7 @@ function saveDB(array_stations, array_filling) {
       }
 
       for (i = 0; i < array_filling.length; i++) {
-        client.query('insert into filling (open,station_id,stands,bikes,creation_date) values (' + array_filling[i].open + ',' + array_filling[i].station_id + ',' + array_filling[i].stands + ',' + array_filling[i].bikes + ',' + array_filling[i].date + ')')
+        client.query(`insert into filling (open,station_id,stands,bikes,creation_date) values (${array_filling[i].open},${array_filling[i].station_id},${array_filling[i].stands},${array_filling[i].bikes},${array_filling[i].date});`)
       }
 
       log.info('On est à la fin de save');
