@@ -8,7 +8,7 @@ var conString = "postgres://thomas:test@localhost/velib";
 
 
 
-var job = schedule.scheduleJob('0 * * * * *', function() {
+var job = schedule.scheduleJob('*/2 * * * *', function() { //run every two minutes
   getPoints();
 });
 
