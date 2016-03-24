@@ -1,0 +1,13 @@
+{
+  "name": "velib-heat-map-client",
+  "version": "0.0.1",
+  "description": "Love in small box",
+  "main": "app.js",
+  "author": "Thibaut V and Thomas P",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "jquery": "^2.2.2"
+  }
+}
